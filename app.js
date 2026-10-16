@@ -71,6 +71,7 @@
   function pause() { if (A && A.since) { A.spent = el(A); A.since = null; } }
   function mkAtt(exam, mode) {
     var ids = idsFor(exam), n = ids.length, mins = n === 70 ? 50 : Math.max(5, Math.round(0.7 * n));
+    if (DB.shuf) ids = shuffle(ids);
     return { ids: ids, perm: {}, picks: {}, i: 0, spent: 0, since: 0, sub: null, limit: mode === "exam" ? mins * 60 : 0 };
   }
   function openAtt(exam, mode, fresh) {
@@ -190,6 +191,7 @@
   }
   function leftExam() {
     var c = counts(), n = A.ids.length, h = '<div class="prow"><span>TIẾN ĐỘ THI ĐẤU</span><b>' + c.ans + "/" + n + " (" + pct(c.ans, n) + '%)</b></div><div class="meter"><i style="width:' + pct(c.ans, n) + '%"></i></div><div class="chips">';
+    h = h.replace('<div class="chips">', '<div class="shufrow"><button class="btn" data-act="shuf" data-f="shuf"' + (A.sub || n < 2 ? " disabled" : "") + '>Trộn câu</button><label class="chk"><input type="checkbox" data-act="shufauto" data-f="sa"' + (DB.shuf ? " checked" : "") + '> Tự trộn khi làm mới</label></div><div class="chips">');
     function chip(v, label) { return '<button data-act="chip" data-v="' + v + '" data-f="k' + v + '" aria-pressed="' + (flt === v) + '">' + esc(label) + "</button>"; }
     var cc = {};
     A.ids.forEach(function (id) { var k = QMAP[id].chapter; cc[k] = (cc[k] || 0) + 1; });
@@ -317,6 +319,8 @@
     else if (a === "submit") submit(false);
     else if (a === "result") showRes();
     else if (a === "again") { closeRes(); again(); }
+    else if (a === "shuf") { if (!A.sub) { A.ids = shuffle(A.ids); A.i = 0; thOv = null; save(); render(); $("#center").scrollTop = 0; } }
+    else if (a === "shufauto") { DB.shuf = b.checked; save(); }
     else if (a === "close") closeRes();
     else if (a === "wrongs") {
       closeRes(); ltab = "exam"; flt = "wa"; L = true; if (!wideMQ.matches) R = false;
