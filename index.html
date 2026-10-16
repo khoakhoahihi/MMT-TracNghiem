@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn trắc nghiệm Mạng máy tính</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <button id="bMenu" class="ic" data-act="menu" aria-label="Mở/đóng danh sách câu hỏi" aria-expanded="false">&#9776;</button>
+  <span class="brand">MMT</span>
+  <label class="sr" for="selExam">Chọn đề</label>
+  <select id="selExam"></select>
+  <div class="seg" role="group" aria-label="Chế độ">
+    <button data-act="mode" data-m="practice">Luyện tập</button>
+    <button data-act="mode" data-m="exam">Thi</button>
+  </div>
+  <div class="badges">
+    <span id="bTime" class="badge">00:00</span>
+    <span id="bScore" class="badge"></span>
+    <span id="bAc" class="badge ac"></span>
+    <span id="bWa" class="badge wa"></span>
+  </div>
+  <button id="bRef" class="btn" data-act="ref" aria-expanded="false">Tra cứu</button>
+  <button id="bSubTop" class="btn pri hideM">Nộp bài</button>
+</header>
+<div class="body">
+  <aside id="left" aria-label="Đề thi, giáo trình, lịch sử">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-act="ltab" data-t="exam">ĐỀ THI</button>
+      <button role="tab" data-act="ltab" data-t="book">GIÁO TRÌNH</button>
+      <button role="tab" data-act="ltab" data-t="hist">LỊCH SỬ NỘP</button>
+    </div>
+    <div id="lpane" class="pane"></div>
+  </aside>
+  <main id="center"></main>
+  <aside id="right" aria-label="Tra cứu">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-act="rtab" data-t="exp">LUẬN GIẢI</button>
+      <button role="tab" data-act="rtab" data-t="th">BÀI GIẢNG</button>
+      <button role="tab" data-act="rtab" data-t="fm">CÔNG THỨC</button>
+    </div>
+    <div id="rpane" class="pane"></div>
+  </aside>
+  <div id="scrim" data-act="scrim"></div>
+</div>
+<footer class="bot">
+  <button id="bPrev" class="btn" data-act="prev">&larr; Trước</button>
+  <button id="bNext" class="btn" data-act="next">Sau &rarr;</button>
+  <span id="bProg" class="prog"></span>
+  <button id="bExp" class="btn" data-act="exp">Lời giải [E]</button>
+  <button id="bSubBot" class="btn pri">Nộp bài</button>
+</footer>
+<dialog id="res" aria-label="Kết quả"></dialog>
+<script src="questions.js"></script>
+<script src="q-overview.js"></script>
+<script src="q-application.js"></script>
+<script src="q-transport.js"></script>
+<script src="q-network.js"></script>
+<script src="q-link.js"></script>
+<script src="q-media.js"></script>
+<script src="theory-overview.js"></script>
+<script src="theory-application.js"></script>
+<script src="theory-transport.js"></script>
+<script src="theory-network.js"></script>
+<script src="theory-link.js"></script>
+<script src="theory-media.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
