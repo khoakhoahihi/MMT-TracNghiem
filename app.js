@@ -3,6 +3,7 @@
   var QS = window.QUESTIONS || [];
   var CHN = { overview: "Ch1 Tổng quan", application: "Ch2 Tầng ứng dụng", transport: "Ch3 Tầng vận chuyển", network: "Ch4 Tầng mạng", link: "Ch5 Tầng liên kết", media: "Ch6 Truyền dẫn & Wi-Fi" };
   var CHK = Object.keys(CHN), KEY = "mmt.v2";
+  var SETN = { "u-ch1": "Ôn tập Chương 1", "u-ch2": "Quiz Chương 2", "u-ch3": "Quiz Chương 3" }; // mục riêng từ file người dùng đưa vào (field `set`)
   var CFL = { verified: "Đã đối chiếu", derived: "Suy luận", unsure: "Chưa chắc" };
   var QMAP = {};
   QS.forEach(function (q) { QMAP[q.id] = q; });
@@ -43,6 +44,7 @@
     var a;
     if (e === "gk") a = QS.filter(function (q) { return q.id.indexOf("gk2425-") === 0; });
     else if (e === "all") a = QS;
+    else if (e.indexOf("set:") === 0) a = QS.filter(function (q) { return q.set === e.slice(4); });
     else if (e.indexOf("ch:") === 0) a = QS.filter(function (q) { return q.chapter === e.slice(3); });
     else if (e === "unsure") a = QS.filter(function (q) { return q.confidence === "unsure"; });
     else if (e === "wrong") a = wrong();
@@ -54,6 +56,7 @@
     QS.forEach(function (q) { cnt[q.chapter] = (cnt[q.chapter] || 0) + 1; });
     L.push({ id: "all", name: "Toàn bộ ngân hàng (" + QS.length + ")" });
     if (gk) L.push({ id: "gk", name: "Đề giữa kỳ 2024-25 thật (" + gk + "c)" });
+    Object.keys(SETN).forEach(function (k) { var n = QS.filter(function (q) { return q.set === k; }).length; if (n) L.push({ id: "set:" + k, name: "Mục riêng: " + SETN[k] + " (" + n + "c)" }); });
     CHK.forEach(function (c) { if (cnt[c]) L.push({ id: "ch:" + c, name: CHN[c] + " (" + cnt[c] + ")" }); });
     L.push({ id: "unsure", name: "Chỉ câu chưa chắc đáp án (unsure) (" + un + ")" });
     L.push({ id: "wrong", name: "Ôn câu sai (từ lịch sử) (" + wrong().length + ")" });
