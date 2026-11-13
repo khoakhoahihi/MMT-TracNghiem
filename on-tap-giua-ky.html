@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ôn tập giữa kỳ Mạng máy tính</title>
+<style>
+:root {
+  --bg: #f6f7fb; --paper: #fff; --ink: #1b2030; --mut: #5b6478; --line: #dde2ec;
+  --acc: #b45309; --acc2: #1d4ed8; --ok: #15803d; --bad: #b91c1c; --soft: #f1f4f9; --tip: #fff7e6; --trap: #fdecec; --key: #eaf2ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0f18; --paper: #111724; --ink: #e6e9f0; --mut: #9aa3b5; --line: #263044;
+    --acc: #f5b54a; --acc2: #7fb0ff; --ok: #4ade80; --bad: #f87171; --soft: #172033; --tip: #2a2213; --trap: #2b1618; --key: #13213a;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
+header.cover { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 16px; margin-bottom: 18px; }
+header.cover h1 { margin: 0 0 4px; font-size: 28px; line-height: 1.25; }
+header.cover p { margin: 4px 0; color: var(--mut); }
+.back { display: inline-block; margin-bottom: 12px; color: var(--acc2); text-decoration: none; font-weight: 600; }
+nav.toc { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 22px; margin-bottom: 18px; }
+nav.toc h2 { margin: 4px 0 8px; font-size: 18px; border: 0; }
+nav.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 28px; }
+nav.toc li { break-inside: avoid; margin: 2px 0; }
+nav.toc a { color: var(--acc2); text-decoration: none; }
+section.ch { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 6px 22px 18px; margin-bottom: 18px; }
+h2 { font-size: 24px; color: var(--acc); border-bottom: 2px solid var(--line); padding-bottom: 6px; margin: 18px 0 10px; }
+h3 { font-size: 19px; margin: 22px 0 6px; color: var(--acc2); }
+h4 { font-size: 16px; margin: 14px 0 4px; }
+p { margin: 6px 0; }
+ul, ol { margin: 6px 0; padding-left: 22px; }
+li { margin: 2px 0; }
+code { font-family: Consolas, "Cascadia Mono", monospace; font-size: .92em; background: var(--soft); border: 1px solid var(--line); border-radius: 5px; padding: 0 4px; overflow-wrap: anywhere; }
+.box { border-radius: 10px; padding: 10px 14px; margin: 10px 0; border: 1px solid var(--line); }
+.box > b:first-child { display: block; margin-bottom: 2px; }
+.tip { background: var(--tip); }
+.trap { background: var(--trap); }
+.key { background: var(--key); }
+.f { font-family: Consolas, "Cascadia Mono", monospace; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tw { overflow-x: auto; margin: 8px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+th { background: var(--soft); }
+.mut { color: var(--mut); }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 0 8px; border: 1px solid var(--line); background: var(--soft); color: var(--mut); vertical-align: middle; }
+.hot { color: var(--bad); border-color: var(--bad); background: transparent; }
+@media (max-width: 640px) { nav.toc ol { columns: 1; } header.cover h1 { font-size: 23px; } h2 { font-size: 21px; } section.ch, header.cover, nav.toc { padding-left: 14px; padding-right: 14px; } }
+@media print {
+  :root { --bg: #fff; --paper: #fff; --ink: #000; --mut: #444; --line: #bbb; --soft: #f3f3f3; --tip: #fff8e8; --trap: #fdeeee; --key: #eef4ff; --acc: #8a3d00; --acc2: #1d3f9e; }
+  body { font-size: 12.5px; }
+  .wrap { max-width: none; padding: 0; }
+  .back { display: none; }
+  section.ch, header.cover, nav.toc { border: 0; padding: 0; margin: 0 0 10px; }
+  section.ch:not(#de) { break-before: page; }
+  h3, h4 { break-after: avoid; }
+  .box, .f, tr { break-inside: avoid; }
+  thead, th { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="index.html">← Về trang luyện đề</a>
+<header class="cover">
+  <h1>Ôn tập giữa kỳ Mạng máy tính (CSC10008 – HCMUS)</h1>
+  <p>Lý thuyết đầy đủ Chương 1–3: Tổng quan mạng, Tầng ứng dụng, Tầng vận chuyển + phụ lục IP/Subnet cơ bản và bảng công thức.</p>
+  <p class="mut">Tổng hợp từ slide Kurose &amp; Ross (v8.0), giáo trình MMT, đề giữa kỳ 2024-25 và ngân hàng câu hỏi của web. Đánh dấu <span class="tag hot">HAY THI</span> là phần đề thật đã hỏi.</p>
+</header>
+
+<nav class="toc">
+<h2>Mục lục</h2>
+<ol>
+  <li><a href="#de">Đề giữa kỳ hỏi gì?</a></li>
+  <li><a href="#c1">Chương 1 – Tổng quan mạng máy tính</a></li>
+  <li><a href="#c1-osi">1.6 Mô hình OSI &amp; TCP/IP</a></li>
+  <li><a href="#c1-delay">1.5 Trễ, mất gói, thông lượng</a></li>
+  <li><a href="#c2">Chương 2 – Tầng ứng dụng</a></li>
+  <li><a href="#c2-http">2.2 HTTP &amp; Web</a></li>
+  <li><a href="#c2-dns">2.4 DNS</a></li>
+  <li><a href="#c3">Chương 3 – Tầng vận chuyển</a></li>
+  <li><a href="#c3-tcp">3.5 TCP</a></li>
+  <li><a href="#c3-cc">3.7 Điều khiển tắc nghẽn TCP</a></li>
+  <li><a href="#pl-ip">Phụ lục A – IP &amp; Subnet cơ bản</a></li>
+  <li><a href="#pl-cong">Phụ lục B – Bảng công thức</a></li>
+  <li><a href="#pl-bay">Phụ lục C – Bẫy hay gặp &amp; checklist</a></li>
+</ol>
+</nav>
+
+<!-- ===================================================== -->
+<section class="ch" id="de">
+<h2>0. Đề giữa kỳ hỏi gì?</h2>
+<p>Đề giữa kỳ HK1 2024-25 (mã đề 240): <b>70 câu trắc nghiệm, 50 phút, không dùng tài liệu</b> – trung bình ~43 giây/câu, nên phải thuộc khái niệm và tính nhanh.</p>
+<div class="tw"><table>
+<tr><th>Nhóm kiến thức</th><th>Số câu trong đề thật</th><th>Ví dụ đã hỏi</th></tr>
+<tr><td>Tổng quan, OSI/TCP-IP, thiết bị, topology, hiệu suất mạng</td><td>31</td><td>Tầng OSI làm session/mã hóa, firewall/proxy, topology dễ mở rộng, bandwidth vs throughput, 4 loại delay</td></tr>
+<tr><td>Tầng ứng dụng (HTTP, email, DNS, FTP)</td><td>21</td><td>Cổng HTTP/SMTP, bản ghi MX/A, status 404, POST/GET, IMAP/POP3, stateless, DNS dùng UDP</td></tr>
+<tr><td>Địa chỉ IP, subnet, NAT, định tuyến (chương 4 cơ bản)</td><td>15</td><td>Subnet mask /24, số host /28, IP private, lớp C, RIP/BGP, NAT</td></tr>
+<tr><td>Tầng vận chuyển (TCP/UDP)</td><td>3</td><td>Ưu điểm UDP, TCP hướng kết nối, UDP không đảm bảo</td></tr>
+</table></div>
+<div class="box key"><b>Chiến lược</b>Thuộc chắc Chương 1 (gần một nửa đề) và Chương 2; phần IP/subnet (Phụ lục A) dù thuộc chương 4 nhưng <b>vẫn có trong đề giữa kỳ</b>; Chương 3 đề 2024-25 hỏi ít nhưng các đề/quiz khác hỏi nhiều về seq/ACK, handshake, cwnd – không nên bỏ.</div>
+</section>
+
+<!-- ===================================================== -->
+<section class="ch" id="c1">
+<h2>Chương 1 – Tổng quan mạng máy tính</h2>
+
+<h3>1.1 Mạng máy tính, Internet và giao thức</h3>
+<ul>
+  <li><b>Mạng máy tính</b>: tập hợp các thiết bị (máy tính, điện thoại, máy in…) kết nối với nhau qua đường truyền để <b>chia sẻ tài nguyên</b> và <b>trao đổi thông tin</b>.</li>
+  <li><b>Internet</b> = “mạng của các mạng” (các ISP nối với nhau).
+    <ul>
+      <li>Góc nhìn <i>“nuts and bolts”</i>: hàng tỷ <b>host / end system</b> chạy ứng dụng mạng; <b>packet switch</b> (router, switch) chuyển gói; <b>communication link</b> (cáp đồng, cáp quang, sóng vô tuyến, vệ tinh) với tốc độ truyền = <b>bandwidth</b>.</li>
+      <li>Góc nhìn <i>dịch vụ</i>: hạ tầng cung cấp dịch vụ cho ứng dụng phân tán, qua <b>giao diện lập trình (socket API)</b>.</li>
+    </ul>
+  </li>
+  <li><b>Giao thức (protocol)</b> định nghĩa <b>định dạng</b> và <b>thứ tự</b> các thông điệp gửi/nhận giữa các thực thể mạng, cùng <b>hành động</b> khi gửi/nhận thông điệp. <span class="tag hot">HAY THI</span> Protocol <u>không</u> quy định tốc độ lan truyền tín hiệu vật lý.</li>
+  <li>Chuẩn Internet: <b>RFC</b> (Request for Comments) do <b>IETF</b> phát triển. Chuẩn LAN/WiFi: <b>IEEE</b> (802.3 Ethernet, 802.11 WiFi). Quản lý địa chỉ IP/tên miền toàn cầu: <b>ICANN</b>/IANA.</li>
+</ul>
+
+<h4>Phân loại mạng theo phạm vi</h4>
+<div class="tw"><table>
+<tr><th>Loại</th><th>Phạm vi</th><th>Ví dụ</th></tr>
+<tr><td>PAN</td><td>vài mét quanh một người</td><td>Bluetooth tai nghe – điện thoại</td></tr>
+<tr><td>LAN</td><td>một phòng, tòa nhà, trường</td><td>Ethernet, WiFi trong phòng lab</td></tr>
+<tr><td>MAN</td><td>một thành phố</td><td>mạng cáp quang đô thị</td></tr>
+<tr><td>WAN</td><td>quốc gia, toàn cầu</td><td>mạng của ISP, Internet</td></tr>
+</table></div>
+<p><b>Internet</b> là mạng công cộng toàn cầu; <b>Intranet</b> là mạng nội bộ của tổ chức dùng công nghệ Internet; <b>Extranet</b> mở một phần intranet cho đối tác.</p>
+
+<h4>Topology (hình trạng mạng) <span class="tag hot">HAY THI</span></h4>
+<div class="tw"><table>
+<tr><th>Topology</th><th>Cách nối</th><th>Ưu điểm</th><th>Nhược điểm</th></tr>
+<tr><td><b>Bus</b></td><td>mọi máy nối vào một cáp trục chung</td><td>rẻ, ít cáp</td><td>cáp trục hỏng → cả mạng hỏng; dùng chung đường truyền nên đụng độ; khó tìm lỗi</td></tr>
+<tr><td><b>Star</b></td><td>mọi máy nối vào thiết bị trung tâm (hub/switch)</td><td><b>dễ mở rộng nhất</b> (thêm máy = thêm 1 dây), dễ quản lý, một máy hỏng không ảnh hưởng mạng</td><td>thiết bị trung tâm hỏng → cả mạng ngừng (single point of failure); tốn cáp hơn bus</td></tr>
+<tr><td><b>Ring</b></td><td>các máy nối thành vòng, dữ liệu đi một chiều qua từng máy</td><td>không đụng độ, công bằng (token)</td><td>một nút/đoạn hỏng có thể làm đứt vòng; khó mở rộng</td></tr>
+<tr><td><b>Mesh</b></td><td>mỗi máy nối với nhiều (full mesh: tất cả) máy khác</td><td>nhiều đường dự phòng, tin cậy cao nhất</td><td>đắt, phức tạp; full mesh n nút cần <code>n(n−1)/2</code> liên kết</td></tr>
+<tr><td>Tree / Hybrid</td><td>phân cấp nhiều star / kết hợp nhiều kiểu</td><td>mở rộng theo cấp, linh hoạt</td><td>nút gốc hỏng ảnh hưởng nhánh dưới</td></tr>
+</table></div>
+
+<h4>Thiết bị mạng và tầng hoạt động <span class="tag hot">HAY THI</span></h4>
+<div class="tw"><table>
+<tr><th>Thiết bị</th><th>Tầng OSI</th><th>Chức năng</th></tr>
+<tr><td>Repeater</td><td>1 – Physical</td><td>khuếch đại/tái tạo tín hiệu để kéo dài đường truyền</td></tr>
+<tr><td>Hub</td><td>1 – Physical</td><td>“repeater nhiều cổng”: lặp tín hiệu ra <b>mọi</b> cổng; mọi máy chung một collision domain</td></tr>
+<tr><td>NIC (card mạng)</td><td>1–2</td><td>giao tiếp máy với đường truyền, mang địa chỉ MAC 48 bit</td></tr>
+<tr><td>Bridge</td><td>2 – Data Link</td><td>nối 2 đoạn LAN, lọc khung theo MAC</td></tr>
+<tr><td>Switch (L2)</td><td>2 – Data Link</td><td>nối các host <b>trong cùng một mạng</b>, chuyển khung theo <b>địa chỉ MAC</b> (bảng switch tự học); mỗi cổng = 1 collision domain</td></tr>
+<tr><td>Router</td><td>3 – Network</td><td>nối <b>các mạng khác nhau</b>, chọn đường và chuyển gói theo <b>địa chỉ IP</b>; mỗi cổng = 1 broadcast domain</td></tr>
+<tr><td>Modem</td><td>1</td><td>điều chế/giải điều chế tín hiệu số ↔ tương tự (DSL, cáp)</td></tr>
+<tr><td>Access Point</td><td>1–2</td><td>kết nối thiết bị không dây vào mạng có dây</td></tr>
+<tr><td>Firewall</td><td>chủ yếu 3–4 (có loại tầng 7)</td><td><b>kiểm soát, cho phép/chặn lưu lượng</b> theo quy tắc (IP, port, giao thức)</td></tr>
+<tr><td>Proxy server</td><td>7 – Application</td><td>đứng giữa client và Internet: <b>bảo mật mạng nội bộ, quản lý/lọc truy cập, caching</b> (tăng tốc nhờ lưu đệm)</td></tr>
+<tr><td>Gateway</td><td>nhiều tầng (tới 7)</td><td>nối các mạng dùng giao thức khác nhau, chuyển đổi giao thức</td></tr>
+</table></div>
+
+<h3>1.2 Network edge: access network và môi trường truyền</h3>
+<ul>
+  <li><b>Network edge</b>: host – <b>client</b> và <b>server</b> (server thường ở data center). <b>Access network</b>: đường nối end system với router biên (edge router). <b>Network core</b>: mạng lưới router nối nhau.</li>
+  <li><b>DSL</b>: dùng đường điện thoại sẵn có tới DSLAM ở central office, <b>dành riêng</b> cho mỗi nhà; tốc độ bất đối xứng.</li>
+  <li><b>Cáp (HFC – hybrid fiber coax)</b>: <b>dùng chung</b> giữa các hộ lân cận, bất đối xứng (downstream &gt; upstream), dùng <b>FDM</b> chia kênh.</li>
+  <li><b>FTTH</b> (cáp quang tới nhà), mạng doanh nghiệp (Ethernet 100 Mbps–10 Gbps), mạng gia đình (modem + router + NAT + firewall + WiFi AP trong một hộp).</li>
+  <li>Không dây: <b>WLAN</b> (WiFi 802.11, trong ~100 m), <b>cellular</b> 4G/5G (hàng km).</li>
+  <li>Truyền gói tại host: gói L bit qua link tốc độ R → thời gian truyền <code>L/R</code>.</li>
+</ul>
+<h4>Môi trường truyền (physical media)</h4>
+<ul>
+  <li><b>Có dẫn (guided)</b>: <b>cáp xoắn đôi</b> (UTP/STP; Cat5e ~1 Gbps, Cat6 10 Gbps cự ly ngắn, tối đa ~100 m), <b>cáp đồng trục</b>, <b>cáp quang</b> (xung ánh sáng; tốc độ rất cao, ít lỗi, <b>miễn nhiễm nhiễu điện từ</b>, đi xa).</li>
+  <li><b>Không dẫn (unguided)</b>: sóng vô tuyến – bị phản xạ, vật cản, nhiễu; vệ tinh địa tĩnh trễ ~270 ms.</li>
+</ul>
+
+<h3>1.3 Network core: chuyển mạch gói vs chuyển mạch kênh</h3>
+<div class="box key"><b>Hai chức năng chính của network core <span class="tag hot">HAY THI</span></b><b>Forwarding</b> (chuyển tiếp) – hành động <i>cục bộ</i>: chuyển gói từ cổng vào sang cổng ra phù hợp theo <i>forwarding table</i>.<br><b>Routing</b> (định tuyến) – hành động <i>toàn cục</i>: thuật toán tìm đường nguồn → đích, xây dựng bảng chuyển tiếp.</div>
+<div class="tw"><table>
+<tr><th></th><th>Chuyển mạch gói (packet switching)</th><th>Chuyển mạch kênh (circuit switching)</th></tr>
+<tr><td>Tài nguyên</td><td>chia sẻ theo nhu cầu (statistical multiplexing)</td><td><b>đặt trước</b> cho cả cuộc gọi, không chia sẻ</td></tr>
+<tr><td>Thiết lập</td><td>không cần call setup</td><td>cần thiết lập kênh trước</td></tr>
+<tr><td>Cách chuyển</td><td><b>store-and-forward</b>: nhận đủ gói rồi mới chuyển</td><td>dữ liệu chảy liên tục trên kênh đã đặt</td></tr>
+<tr><td>Hiệu năng</td><td>có trễ hàng đợi, có thể mất gói khi tràn buffer</td><td>đảm bảo băng thông, trễ ổn định</td></tr>
+<tr><td>Hợp với</td><td>dữ liệu <b>bùng phát (bursty)</b>: web, email</td><td>lưu lượng liên tục, tốc độ đều: thoại truyền thống</td></tr>
+<tr><td>Nhược điểm</td><td>tắc nghẽn → cần giao thức tin cậy, điều khiển tắc nghẽn</td><td>lãng phí khi kênh rảnh</td></tr>
+</table></div>
+<ul>
+  <li><b>FDM</b>: chia băng tần thành các dải tần; mỗi cuộc gọi một dải hẹp, truyền liên tục. <b>TDM</b>: chia thời gian thành khung/khe; mỗi cuộc gọi dùng khe định kỳ, trong khe được truyền ở tốc độ tối đa. Tốc độ mỗi kênh = <code>R / số kênh</code>.</li>
+  <li><b>Ví dụ kinh điển</b>: link 1 Mb/s, mỗi user cần 100 kb/s khi active, active 10% thời gian. Chuyển mạch kênh: <b>10</b> user. Chuyển mạch gói: <b>35</b> user mà xác suất &gt;10 user active cùng lúc ≈ <b>0,0004</b>.</li>
+  <li>Ví dụ TDM: file 640.000 bit, link 1,536 Mb/s chia 24 khe → mỗi kênh 64 kb/s → 10 s + thời gian thiết lập kênh 0,5 s = 10,5 s.</li>
+</ul>
+
+<h3>1.4 Cấu trúc Internet: mạng của các mạng</h3>
+<ul>
+  <li>Nối trực tiếp mọi cặp access ISP cần <code>O(N²)</code> đường → không khả thi. Thay vào đó: <b>access ISP</b> (nối tới người dùng: VNPT, Viettel, FPT…) → <b>ISP khu vực</b> → <b>ISP tier-1</b> (toàn cầu, ở đỉnh).</li>
+  <li><b>IXP</b> (Internet Exchange Point): điểm các ISP trao đổi lưu lượng; <b>peering</b>: hai ISP ngang hàng nối trực tiếp, không trả phí cho nhau.</li>
+  <li><b>Content provider network</b> (Google, Microsoft, Akamai): mạng riêng nối các data center, peer trực tiếp với ISP/IXP để <b>đưa nội dung gần người dùng</b>, giảm trễ và phí transit.</li>
+</ul>
+
+<h3 id="c1-delay">1.5 Trễ, mất gói, thông lượng <span class="tag hot">HAY THI</span></h3>
+<div class="f">d_nodal = d_proc + d_queue + d_trans + d_prop</div>
+<div class="tw"><table>
+<tr><th>Loại trễ</th><th>Ý nghĩa</th><th>Công thức / phụ thuộc</th></tr>
+<tr><td><b>Processing</b> (xử lý)</td><td>kiểm tra lỗi bit, quyết định cổng ra</td><td>rất nhỏ (µs)</td></tr>
+<tr><td><b>Queuing</b> (hàng đợi)</td><td>chờ trong buffer tới lượt truyền</td><td>phụ thuộc mức tắc nghẽn, <b>thay đổi theo từng gói</b></td></tr>
+<tr><td><b>Transmission</b> (truyền)</td><td>đẩy toàn bộ bit của gói lên link</td><td><code>L/R</code> – phụ thuộc kích thước gói và tốc độ link, <b>không</b> phụ thuộc khoảng cách</td></tr>
+<tr><td><b>Propagation</b> (lan truyền)</td><td>1 bit đi từ đầu tới cuối link</td><td><code>d/s</code>, s ≈ 2×10⁸ m/s – phụ thuộc khoảng cách, <b>không</b> phụ thuộc L, R</td></tr>
+</table></div>
+<ul>
+  <li><b>Cường độ lưu lượng</b> = <code>L·a/R</code> (a = số gói đến/giây): ≈ 0 → trễ nhỏ; → 1 → trễ rất lớn; &gt; 1 → hàng đợi tăng vô hạn. <b>Đừng thiết kế hệ thống có La/R &gt; 1.</b></li>
+  <li><b>Mất gói</b>: buffer hữu hạn, gói đến khi buffer đầy bị <b>drop</b> – gói đã vào network core nhưng không tới đích. Tăng buffer: giảm mất gói nhưng tăng queuing delay (bufferbloat).</li>
+  <li><b>traceroute</b>: gửi gói tới từng router trên đường (tăng dần TTL), đo RTT tới mỗi hop.</li>
+  <li><b>Store-and-forward</b> qua N link (bỏ qua d_prop): 1 gói tốn <code>N·L/R</code>; P gói liên tiếp: <code>(N + P − 1)·L/R</code>.</li>
+  <li><b>Throughput</b> (thông lượng) = tốc độ thực tế bit được chuyển giữa gửi–nhận. Đầu–cuối = <code>min(R₁, R₂, …)</code> → link chậm nhất là <b>bottleneck</b>. K kết nối chia chung link lõi R: <code>min(Rs, Rc, R/K)</code>.</li>
+</ul>
+<div class="box tip"><b>Ví dụ</b>L = 10.000 bit, link 2.000 km, R = 10 Mbps, s = 2×10⁸ m/s → d_trans = 10⁴/10⁷ = 1 ms; d_prop = 2×10⁶/2×10⁸ = 10 ms; tổng 11 ms.<br>Gói 1.500 byte, R = 100 Mbps → d_trans = 1500×8/10⁸ = 0,12 ms (nhớ ×8!).</div>
+<h4>Các chỉ số hiệu suất mạng <span class="tag hot">HAY THI</span></h4>
+<ul>
+  <li><b>Bandwidth (băng thông)</b>: lượng dữ liệu <b>tối đa</b> có thể truyền qua kênh trong một đơn vị thời gian – đơn vị <b>bps</b> (bit/giây), Kbps, Mbps, Gbps. Là giá trị <i>lý thuyết</i>.</li>
+  <li><b>Throughput / data rate thực tế</b>: lượng dữ liệu <b>thực tế</b> truyền được trong một khoảng thời gian (luôn ≤ bandwidth). Bị ảnh hưởng bởi khoảng cách, giao thức, nhiễu, tắc nghẽn…</li>
+  <li><b>Latency / delay</b>: thời gian gói đi từ nguồn tới đích (4 thành phần trên). <b>RTT</b>: thời gian đi và về. <b>Jitter</b>: độ biến thiên của trễ.</li>
+  <li><b>Packet loss</b>: tỉ lệ gói bị mất. <b>Reliability</b>: khả năng truyền đúng, không mất. Đều là yếu tố hiệu suất.</li>
+</ul>
+
+<h3 id="c1-osi">1.6 Phân tầng: mô hình OSI và TCP/IP <span class="tag hot">HAY THI</span></h3>
+<p><b>Vì sao phân tầng?</b> Chia hệ thống phức tạp thành các <b>mô-đun</b>: mỗi tầng cung cấp dịch vụ cho tầng trên bằng cách dùng dịch vụ tầng dưới; <b>thay đổi cài đặt một tầng không ảnh hưởng các tầng khác</b> (miễn giữ nguyên dịch vụ) → dễ thiết kế, bảo trì, nâng cấp.</p>
+<div class="tw"><table>
+<tr><th>#</th><th>Tầng OSI</th><th>Chức năng chính</th><th>Giao thức / ví dụ</th><th>PDU</th><th>Thiết bị</th></tr>
+<tr><td>7</td><td><b>Application</b> (Ứng dụng)</td><td>giao tiếp với ứng dụng/người dùng, cung cấp dịch vụ mạng (web, mail, truyền file)</td><td>HTTP, FTP, SMTP, DNS, DHCP, Telnet</td><td rowspan="3">Data / message</td><td rowspan="3">host, gateway, proxy</td></tr>
+<tr><td>6</td><td><b>Presentation</b> (Trình bày)</td><td><b>mã hóa/giải mã</b>, <b>nén</b>, chuyển đổi định dạng dữ liệu (ASCII, JPEG…)</td><td>SSL/TLS (thường xếp ở đây), JPEG, MPEG</td></tr>
+<tr><td>5</td><td><b>Session</b> (Phiên)</td><td><b>thiết lập, quản lý và kết thúc phiên</b> giữa các ứng dụng, đồng bộ (checkpoint)</td><td>NetBIOS, RPC</td></tr>
+<tr><td>4</td><td><b>Transport</b> (Vận chuyển / Giao vận)</td><td>truyền <b>end-to-end giữa các tiến trình</b> (port), chia đoạn, tin cậy, flow control</td><td>TCP, UDP</td><td>Segment</td><td>(host)</td></tr>
+<tr><td>3</td><td><b>Network</b> (Mạng)</td><td><b>định địa chỉ logic (IP) và định tuyến</b> gói qua nhiều mạng</td><td>IP, ICMP, RIP, OSPF, BGP</td><td>Packet / datagram</td><td>router</td></tr>
+<tr><td>2</td><td><b>Data Link</b> (Liên kết dữ liệu)</td><td>đóng khung, địa chỉ MAC, phát hiện lỗi, truyền giữa <b>2 nút kề nhau</b></td><td>Ethernet, WiFi (802.11), PPP, ARP*</td><td>Frame</td><td>switch, bridge, NIC</td></tr>
+<tr><td>1</td><td><b>Physical</b> (Vật lý)</td><td>truyền <b>bit</b> trên đường truyền: điện áp, tín hiệu, cáp, đầu nối</td><td>cáp, RJ-45, sóng</td><td>Bit</td><td>hub, repeater, modem</td></tr>
+</table></div>
+<p class="mut">*ARP thường được xếp giữa tầng 2 và 3.</p>
+<ul>
+  <li>Mẹo nhớ từ dưới lên: <b>P</b>lease <b>D</b>o <b>N</b>ot <b>T</b>hrow <b>S</b>ausage <b>P</b>izza <b>A</b>way (Physical, Data link, Network, Transport, Session, Presentation, Application).</li>
+  <li><b>Mô hình TCP/IP (Internet, 5 tầng)</b>: Application – Transport – Network – Link – Physical. (Một số tài liệu gộp Link+Physical thành “Network Access” → 4 tầng.) Internet stack <b>không có</b> tầng Presentation và Session: nếu cần, <b>ứng dụng tự làm</b>.</li>
+  <li><b>Đóng gói (encapsulation)</b>: message (M) → segment (H<sub>t</sub>+M) → datagram (H<sub>n</sub>+H<sub>t</sub>+M) → frame (H<sub>l</sub>+H<sub>n</sub>+H<sub>t</sub>+M). Bên nhận gỡ ngược lại. Datagram = header mạng + <b>toàn bộ</b> segment.</li>
+  <li><b>Host</b> cài đủ 5 tầng; <b>router</b>: 3 tầng (network, link, physical); <b>switch</b>: 2 tầng (link, physical). Thiết bị đầu tiên sau host đọc header IP là <b>router</b>.</li>
+  <li><b>Transport vs Network</b>: transport = <b>process-to-process</b> (port); network = <b>host-to-host</b> (IP).</li>
+</ul>
+
+<h3>1.7 An ninh mạng (giới thiệu)</h3>
+<ul>
+  <li>Internet ban đầu không thiết kế để bảo mật (“nhóm người dùng tin tưởng nhau”), nên bảo mật phải thêm vào ở mọi tầng.</li>
+  <li><b>Malware</b>: <b>virus</b> (lây khi người dùng chạy đối tượng, vd file đính kèm), <b>worm</b> (tự lây, tự thực thi), <b>spyware</b> (ghi phím, theo dõi). Máy nhiễm có thể thành một phần <b>botnet</b>.</li>
+  <li><b>DoS</b>: làm cạn tài nguyên (băng thông, server) bằng lưu lượng rác; <b>DDoS</b> dùng nhiều nguồn (botnet) nên khó lọc. Ba dạng: vulnerability attack, bandwidth flooding, connection flooding (SYN flood).</li>
+  <li><b>Packet sniffing</b>: card mạng chế độ promiscuous đọc mọi gói trên môi trường chia sẻ (WiFi, Ethernet dùng chung) – thụ động, khó phát hiện (Wireshark là sniffer). Phòng: mã hóa.</li>
+  <li><b>IP spoofing</b>: gửi gói với địa chỉ IP nguồn giả. Phòng: <b>xác thực điểm cuối</b> (end-point authentication).</li>
+  <li>Biện pháp: xác thực, mã hóa (bảo mật, toàn vẹn), kiểm soát truy cập, <b>firewall</b> (chặn/cho phép lưu lượng theo luật), <b>IDS</b> (phát hiện xâm nhập), proxy.</li>
+  <li>Ẩn danh khi duyệt web: dùng proxy/VPN/Tor, xóa cookie, không đăng nhập…</li>
+</ul>
+
+<h3>1.8 Lịch sử tóm tắt</h3>
+<ul>
+  <li>1961–72: nguyên lý chuyển mạch gói (Kleinrock, Baran, Davies); <b>1969 ARPANET</b> 4 nút đầu tiên; 1972 email, NCP.</li>
+  <li>1974 Cerf &amp; Kahn đặt nền tảng kết nối mạng (internetworking) – best effort, router không giữ trạng thái, điều khiển phi tập trung.</li>
+  <li><b>1/1/1983 chuyển sang TCP/IP</b>; 1982 SMTP; 1983 DNS; 1985 FTP; 1988 TCP congestion control.</li>
+  <li>Thập niên 1990: <b>Web</b> (Tim Berners-Lee, HTTP, HTML), thương mại hóa Internet. 2000s–nay: không dây, di động, mạng xã hội, cloud, data center.</li>
+</ul>
+</section>
+
+<!-- ===================================================== -->
+<section class="ch" id="c2">
+<h2>Chương 2 – Tầng ứng dụng</h2>
+
+<h3>2.1 Nguyên lý ứng dụng mạng</h3>
+<h4>Kiến trúc</h4>
+<div class="tw"><table>
+<tr><th>Client–server</th><th>Peer-to-peer (P2P)</th></tr>
+<tr><td>Server <b>luôn bật</b>, IP cố định, thường ở data center; client kết nối gián đoạn, IP có thể động, <b>không</b> nói chuyện trực tiếp với nhau; client luôn là bên khởi tạo. VD: Web, email, FTP.</td><td>Không có server luôn bật; các peer giao tiếp <b>trực tiếp</b>; <b>tự mở rộng</b> (peer mới vừa xin vừa cung cấp dịch vụ); peer vào/ra và đổi IP liên tục nên quản lý phức tạp. VD: BitTorrent.</td></tr>
+</table></div>
+<ul>
+  <li><b>Process</b> = chương trình chạy trên host. <b>Client process</b> khởi tạo liên lạc; <b>server process</b> chờ được liên hệ.</li>
+  <li><b>Socket</b> = “cửa” giữa tiến trình ứng dụng và tầng vận chuyển. Định danh tiến trình nhận = <b>địa chỉ IP + số port</b> (IP xác định host, port xác định tiến trình).</li>
+  <li>Giao thức tầng ứng dụng quy định: loại thông điệp (request/response), cú pháp, ngữ nghĩa, quy tắc gửi/nhận. Giao thức mở (RFC): HTTP, SMTP; độc quyền: Skype, Zoom.</li>
+</ul>
+<h4>Ứng dụng cần gì từ tầng vận chuyển?</h4>
+<ul>
+  <li><b>Toàn vẹn dữ liệu</b> (không mất): truyền file, email, web. Âm thanh/video chịu được mất một ít.</li>
+  <li><b>Timing</b> (độ trễ thấp): VoIP, game. <b>Throughput</b> tối thiểu: multimedia. <b>Bảo mật</b>.</li>
+</ul>
+<div class="tw"><table>
+<tr><th>TCP</th><th>UDP</th></tr>
+<tr><td>hướng kết nối (bắt tay), truyền <b>tin cậy</b>, đúng thứ tự, flow control, congestion control. <u>Không</u> đảm bảo timing, throughput, bảo mật.</td><td>không kết nối, <b>không tin cậy</b>, không flow/congestion control. <u>Không</u> đảm bảo timing, throughput, bảo mật. Ưu: đơn giản, nhanh, header nhỏ, ít tài nguyên.</td></tr>
+<tr><td>HTTP/1.1, HTTP/2, SMTP, IMAP, POP3, FTP, SSH</td><td>DNS, DHCP, SNMP, streaming/VoIP/game thời gian thực, HTTP/3 (QUIC)</td></tr>
+</table></div>
+<p><b>TLS</b>: cung cấp kết nối TCP mã hóa, toàn vẹn, xác thực điểm cuối; cài ở <b>tầng ứng dụng</b> (thư viện TLS dùng TCP). HTTPS = HTTP trên TLS, cổng 443.</p>
+
+<h3 id="c2-http">2.2 Web và HTTP <span class="tag hot">HAY THI</span></h3>
+<ul>
+  <li>Trang web gồm <b>đối tượng</b> (file HTML gốc + ảnh, script… được tham chiếu), mỗi đối tượng có <b>URL</b> = tên host + đường dẫn (vd <code>www.hcmus.edu.vn/khoa/cntt.gif</code>).</li>
+  <li><b>HTTP</b> (HyperText Transfer Protocol): mô hình client/server; client (trình duyệt) gửi request, server gửi response. Chạy trên <b>TCP, cổng 80</b>.</li>
+  <li><b>HTTP là stateless</b>: server <b>không lưu thông tin</b> về các request trước của client (muốn nhớ trạng thái → dùng <b>cookie</b>).</li>
+  <li>HTTP là giao thức <b>pull</b> (client kéo dữ liệu về).</li>
+</ul>
+<h4>Kết nối non-persistent vs persistent</h4>
+<div class="tw"><table>
+<tr><th>Non-persistent (HTTP/1.0)</th><th>Persistent (mặc định HTTP/1.1)</th></tr>
+<tr><td>mỗi kết nối TCP truyền <b>tối đa 1 đối tượng</b> rồi đóng; mỗi đối tượng tốn <b>2 RTT</b> + thời gian truyền file; OS tốn tài nguyên cho từng kết nối</td><td>server <b>giữ kết nối mở</b>, nhiều đối tượng đi qua cùng kết nối; ~1 RTT cho mỗi đối tượng (pipelining còn nhanh hơn)</td></tr>
+</table></div>
+<div class="f">RTT = thời gian gói nhỏ đi từ client → server → client
+Non-persistent, 1 đối tượng:  2·RTT + thời gian truyền file
+Trang = 1 HTML + k đối tượng (bỏ qua thời gian truyền):
+  non-persistent tuần tự      : 2(k+1) RTT       → ví dụ 1 HTML + 10 ảnh = 11 kết nối TCP, 22 RTT
+  persistent không pipelining : 1 + (k+1) RTT
+  persistent có pipelining    : 3 RTT (1 bắt tay + 1 HTML + 1 cho tất cả đối tượng)</div>
+<h4>Thông điệp HTTP</h4>
+<ul>
+  <li><b>Request</b>: request line (<code>GET /index.html HTTP/1.1</code>), header lines (<code>Host:</code>, <code>User-Agent:</code>, <code>Connection:</code>, <code>Accept-Language:</code>…), dòng trống, body.</li>
+  <li><b>Phương thức</b>: <b>GET</b> (lấy tài nguyên; dữ liệu form có thể nằm trong URL sau <code>?</code>), <b>POST</b> (gửi dữ liệu lên server trong body – tạo mới/gửi form), <b>HEAD</b> (chỉ lấy header), <b>PUT</b> (tải lên/thay thế toàn bộ tài nguyên tại URL), <b>DELETE</b> (xóa). PATCH: sửa một phần.</li>
+  <li><b>Response</b>: status line (<code>HTTP/1.1 200 OK</code>), header (<code>Date:</code>, <code>Server:</code>, <code>Last-Modified:</code>, <code>Content-Length:</code>, <code>Content-Type:</code>), body.</li>
+</ul>
+<div class="tw"><table>
+<tr><th>Mã</th><th>Ý nghĩa</th></tr>
+<tr><td><b>200 OK</b></td><td>thành công, đối tượng nằm trong response</td></tr>
+<tr><td><b>301 Moved Permanently</b></td><td>đối tượng đã chuyển, địa chỉ mới trong header <code>Location:</code></td></tr>
+<tr><td><b>304 Not Modified</b></td><td>bản cache còn mới, không có body (trả lời conditional GET)</td></tr>
+<tr><td><b>400 Bad Request</b></td><td>server không hiểu request</td></tr>
+<tr><td><b>404 Not Found</b></td><td>không tìm thấy tài nguyên</td></tr>
+<tr><td><b>505 HTTP Version Not Supported</b></td><td>không hỗ trợ phiên bản HTTP</td></tr>
+</table></div>
+<p class="mut">Nhóm mã: 1xx thông tin, 2xx thành công, 3xx chuyển hướng, 4xx lỗi phía client, 5xx lỗi phía server.</p>
+<h4>Cookie – duy trì trạng thái</h4>
+<p>4 thành phần: (1) header <code>Set-Cookie:</code> trong response; (2) header <code>Cookie:</code> trong các request sau; (3) file cookie trên máy người dùng do trình duyệt quản lý; (4) cơ sở dữ liệu back-end tại website. Dùng cho đăng nhập, giỏ hàng, gợi ý, phiên làm việc. Vấn đề: quyền riêng tư (third-party cookie theo dõi người dùng qua nhiều site).</p>
+<h4>Web cache (proxy server)</h4>
+<ul>
+  <li>Trình duyệt gửi request tới cache: có đối tượng thì trả ngay; không có thì cache hỏi origin server, lưu lại rồi trả. Cache vừa là <b>server</b> (với client) vừa là <b>client</b> (với origin).</li>
+  <li>Lợi ích: <b>giảm thời gian đáp ứng</b>, <b>giảm lưu lượng trên access link</b> của tổ chức, giúp server nhỏ phân phối nội dung hiệu quả.</li>
+  <li>Hit rate h → chỉ (1−h) request đi qua access link: <code>độ sử dụng link = (1−h) × tốc độ yêu cầu / tốc độ link</code>.</li>
+  <li><b>Conditional GET</b>: cache gửi <code>If-Modified-Since: &lt;ngày&gt;</code>; chưa đổi → <code>304 Not Modified</code> (body rỗng); đã đổi → <code>200 OK</code> + dữ liệu mới.</li>
+</ul>
+<h4>HTTP/2 và HTTP/3</h4>
+<ul>
+  <li>HTTP/1.1: pipelining nhưng trả theo thứ tự FCFS → <b>HOL blocking</b> (đối tượng nhỏ chờ đối tượng lớn).</li>
+  <li><b>HTTP/2</b>: chia đối tượng thành frame, xen kẽ truyền, ưu tiên theo client, server push; vẫn một TCP nên mất gói vẫn làm tắc mọi đối tượng.</li>
+  <li><b>HTTP/3</b>: chạy trên <b>QUIC/UDP</b>, bảo mật, kiểm soát lỗi và tắc nghẽn theo từng luồng.</li>
+</ul>
+
+<h3>2.3 Thư điện tử: SMTP, POP3, IMAP <span class="tag hot">HAY THI</span></h3>
+<ul>
+  <li>3 thành phần: <b>user agent</b> (Outlook, Gmail app…), <b>mail server</b> (mailbox chứa thư đến + hàng đợi thư đi), giao thức <b>SMTP</b>.</li>
+  <li><b>SMTP</b>: <b>gửi thư</b> (UA → mail server gửi → mail server nhận, chuyển <b>trực tiếp</b> giữa 2 mail server), <b>TCP cổng 25</b>, giao thức <b>push</b>, kết nối bền vững, thông điệp phải là <b>ASCII 7-bit</b> (tệp nhị phân phải mã hóa bằng <b>MIME</b>), kết thúc thư bằng dòng chỉ có dấu <code>.</code> (<code>CRLF.CRLF</code>). Ba pha: handshake, truyền thư, đóng.</li>
+  <li>Lệnh SMTP: <code>HELO</code>, <code>MAIL FROM:</code>, <code>RCPT TO:</code>, <code>DATA</code>, <code>QUIT</code>; mã đáp: 220, 250, 354, 221. Header thư (RFC 822): <code>To:</code>, <code>From:</code>, <code>Subject:</code> – khác lệnh SMTP.</li>
+  <li><b>Lấy thư</b> (pull) không dùng SMTP mà dùng:
+    <ul>
+      <li><b>POP3</b> (TCP <b>110</b>): tải thư về máy, thường <b>xóa trên server</b> (“download and delete”) → khó đọc trên nhiều thiết bị.</li>
+      <li><b>IMAP</b> (TCP <b>143</b>): thư <b>giữ trên server</b>, quản lý thư mục, <b>đồng bộ nhiều thiết bị</b>.</li>
+      <li><b>HTTP</b>: webmail (Gmail, Outlook web) – phía sau vẫn dùng SMTP để gửi.</li>
+    </ul>
+  </li>
+</ul>
+<div class="f">Alice UA ──SMTP──▶ mail server Alice ──SMTP (TCP 25)──▶ mail server Bob ──IMAP/POP3/HTTP──▶ Bob UA</div>
+
+<h3 id="c2-dns">2.4 DNS – Domain Name System <span class="tag hot">HAY THI</span></h3>
+<ul>
+  <li><b>Chức năng chính: dịch tên miền (hostname) → địa chỉ IP</b>. Ngoài ra: host aliasing (bí danh), mail server aliasing, <b>phân tải</b> (một tên – nhiều IP).</li>
+  <li>DNS là <b>cơ sở dữ liệu phân tán, phân cấp</b> + giao thức tầng ứng dụng; chạy chủ yếu trên <b>UDP cổng 53</b>.</li>
+  <li>Không tập trung vì: điểm lỗi đơn, lưu lượng khổng lồ, ở xa, khó bảo trì → <b>không scale</b>.</li>
+  <li>Phân cấp: <b>Root server</b> (13 root “logic”, nhân bản khắp thế giới, ICANN quản lý) → <b>TLD server</b> (.com, .org, .edu, .vn…) → <b>Authoritative server</b> (của từng tổ chức, giữ bản ghi gốc). <b>Local DNS server</b> (của ISP/trường) không thuộc cây phân cấp, nhận truy vấn từ host, có cache.</li>
+  <li><b>Recursive</b> (đệ quy): server được hỏi phải tự đi tìm đáp án cuối cùng. <b>Iterative</b> (lặp): server trả lời “tôi không biết, hãy hỏi server X”. Điển hình: host → local DNS là <b>recursive</b>; local DNS → root/TLD/authoritative là <b>iterative</b>.</li>
+  <li><b>Caching</b>: server học được ánh xạ thì cache, hết hạn theo <b>TTL</b>; TLD server thường được cache nên ít phải hỏi root.</li>
+  <li>Đếm số thông điệp (cache rỗng): host↔local 2 + local↔root 2 + local↔TLD 2 + local↔authoritative 2 = <b>8</b>.</li>
+  <li>Bảo mật: DDoS root/TLD, <b>DNS poisoning</b> (giả reply để cache sai), dùng DNS khuếch đại DDoS. DNSSEC: xác thực + toàn vẹn. Công cụ tra cứu: <code>nslookup</code>, <code>dig</code>.</li>
+  <li>Đăng ký tên miền: qua <b>registrar</b>, chèn bản ghi <b>NS</b> và <b>A</b> vào TLD server.</li>
+</ul>
+<div class="tw"><table>
+<tr><th>Resource record (Name, Value, Type, TTL)</th><th>Name</th><th>Value</th></tr>
+<tr><td><b>A</b></td><td>hostname</td><td><b>địa chỉ IPv4</b> (AAAA: IPv6)</td></tr>
+<tr><td><b>NS</b></td><td>tên miền (foo.com)</td><td>hostname của <b>authoritative name server</b> của miền</td></tr>
+<tr><td><b>CNAME</b></td><td>tên bí danh (www.ibm.com)</td><td>tên chính tắc (canonical name)</td></tr>
+<tr><td><b>MX</b></td><td>tên miền</td><td>tên <b>mail server</b> của miền</td></tr>
+<tr><td>TTL</td><td colspan="2">thời gian bản ghi được giữ trong cache</td></tr>
+</table></div>
+
+<h3>2.5 P2P và BitTorrent</h3>
+<div class="f">Phân phối file F bit tới N peer (us: upload server, ui: upload peer i, dmin: download nhỏ nhất)
+Client–server : D_cs  ≥ max{ N·F/us ,  F/dmin }                       → tăng tuyến tính theo N
+P2P           : D_P2P ≥ max{ F/us ,  F/dmin ,  N·F/(us + Σui) }       → tăng chậm hơn nhiều</div>
+<ul>
+  <li>File chia thành <b>chunk</b> (256 KB); <b>torrent</b> = nhóm peer trao đổi chunk của một file; <b>tracker</b> theo dõi các peer tham gia.</li>
+  <li><b>Rarest first</b>: xin chunk hiếm nhất trước. <b>Tit-for-tat</b>: gửi cho 4 peer gửi cho mình nhanh nhất (đánh giá lại 10 s), mỗi 30 s <i>optimistically unchoke</i> 1 peer ngẫu nhiên. <b>Churn</b>: peer vào/ra liên tục.</li>
+</ul>
+
+<h3>2.6 Video streaming và CDN</h3>
+<ul>
+  <li>Video = chuỗi ảnh; nén theo không gian/thời gian; <b>CBR</b> (bit rate cố định) vs <b>VBR</b> (thay đổi).</li>
+  <li><b>DASH</b>: server chia video thành chunk, mỗi chunk mã hóa nhiều mức bitrate, có <b>manifest file</b>; <b>client</b> đo băng thông và tự chọn chunk/bitrate/server. Client buffer + playout delay để bù jitter.</li>
+  <li><b>CDN</b> (Content Distribution Network): lưu <b>bản sao nội dung ở nhiều server phân tán địa lý</b>, chuyển mỗi request tới server phù hợp gần người dùng → giảm trễ, giảm tải origin. Hai cách: <b>enter deep</b> (rất nhiều server sâu trong access network – Akamai) và <b>bring home</b> (ít cụm lớn ở POP/IXP). Chọn server qua DNS (trả CNAME trỏ sang CDN).</li>
+</ul>
+
+<h3>2.7 Lập trình socket</h3>
+<div class="tw"><table>
+<tr><th>UDP – <code>socket(AF_INET, SOCK_DGRAM)</code></th><th>TCP – <code>socket(AF_INET, SOCK_STREAM)</code></th></tr>
+<tr><td>không bắt tay, không kết nối; mỗi gói gắn <b>IP + port đích</b> (<code>sendto</code>); server nhận bằng <code>recvfrom()</code> → trả về dữ liệu <b>và địa chỉ người gửi</b>; dữ liệu có thể mất/sai thứ tự; server chỉ cần <b>1 socket</b>.</td><td>server chạy trước: <code>bind</code> → <code>listen</code> (welcoming socket) → <code>accept()</code> trả về <b>socket mới (connectionSocket) riêng cho client đó</b> + địa chỉ client; client <code>connect()</code> (bắt tay 3 bước) rồi <code>send/recv</code>; luồng byte tin cậy, đúng thứ tự. n client → n+1 socket.</td></tr>
+</table></div>
+<p><code>AF_INET</code> = IPv4, <code>AF_INET6</code> = IPv6. Loại socket: <b>stream socket</b> (TCP), <b>datagram socket</b> (UDP), raw socket (truy cập trực tiếp IP).</p>
+
+<h3>2.8 FTP, DHCP và các giao thức khác</h3>
+<ul>
+  <li><b>FTP</b>: truyền file client–server, <b>2 kết nối TCP</b>: <b>điều khiển cổng 21</b> (lệnh USER, PASS, LIST, RETR, STOR – “out-of-band”) và <b>dữ liệu cổng 20</b>; FTP <b>có giữ trạng thái</b> (thư mục hiện tại, đã xác thực).</li>
+  <li><b>DHCP</b> (Dynamic Host Configuration Protocol): <b>cấp phát địa chỉ IP động</b> khi máy vào mạng (plug-and-play), có thời hạn thuê (lease). Chạy trên <b>UDP</b> (server <b>67</b>, client <b>68</b>). Trả về: IP, <b>subnet mask</b>, <b>default gateway</b> (first-hop router), <b>DNS server</b>.
+    <ul>
+      <li>4 bước <b>DORA</b>: <b>D</b>iscover (client broadcast, nguồn <code>0.0.0.0:68</code> → đích <code>255.255.255.255:67</code>, vì chưa có IP và chưa biết server) → <b>O</b>ffer → <b>R</b>equest → <b>A</b>CK.</li>
+      <li>Server khác subnet → router làm <b>DHCP relay agent</b>.</li>
+    </ul>
+  </li>
+  <li>Khác: Telnet (23, không mã hóa), SSH (22, mã hóa), SNMP (UDP 161, quản lý mạng), HTTPS (443).</li>
+</ul>
+<div class="tw"><table>
+<tr><th>Giao thức</th><th>Transport</th><th>Cổng</th><th>Ghi chú</th></tr>
+<tr><td>FTP</td><td>TCP</td><td>20 (data), 21 (control)</td><td>2 kết nối</td></tr>
+<tr><td>SSH</td><td>TCP</td><td>22</td><td>đăng nhập từ xa có mã hóa</td></tr>
+<tr><td>Telnet</td><td>TCP</td><td>23</td><td>không mã hóa</td></tr>
+<tr><td>SMTP</td><td>TCP</td><td>25</td><td>gửi thư (push)</td></tr>
+<tr><td>DNS</td><td>UDP (TCP khi chuyển vùng)</td><td>53</td><td>tên miền ↔ IP</td></tr>
+<tr><td>DHCP</td><td>UDP</td><td>67 / 68</td><td>cấp IP động</td></tr>
+<tr><td>HTTP</td><td>TCP</td><td>80</td><td>web, stateless, pull</td></tr>
+<tr><td>POP3</td><td>TCP</td><td>110</td><td>lấy thư, tải về rồi xóa</td></tr>
+<tr><td>IMAP</td><td>TCP</td><td>143</td><td>lấy thư, đồng bộ nhiều thiết bị</td></tr>
+<tr><td>HTTPS</td><td>TCP</td><td>443</td><td>HTTP + TLS</td></tr>
+</table></div>
+</section>
+
+<!-- ===================================================== -->
+<section class="ch" id="c3">
+<h2>Chương 3 – Tầng vận chuyển</h2>
+
+<h3>3.1 Dịch vụ tầng vận chuyển</h3>
+<ul>
+  <li>Cung cấp <b>truyền thông logic giữa các tiến trình</b> chạy trên các host khác nhau (tầng mạng: logic giữa các <b>host</b>). Ví dụ “nhà – thư”: tầng mạng như bưu điện đưa thư tới nhà, tầng vận chuyển như người trong nhà phát thư tới từng người.</li>
+  <li>Chạy <b>chỉ ở end system</b>: bên gửi chia message thành <b>segment</b> chuyển xuống tầng mạng; bên nhận ráp lại, chuyển lên ứng dụng.</li>
+  <li>Internet có 2 giao thức: <b>TCP</b> (tin cậy, đúng thứ tự, điều khiển tắc nghẽn, điều khiển luồng, thiết lập kết nối) và <b>UDP</b> (không tin cậy, không thứ tự, “best-effort”). <b>Cả hai đều không đảm bảo độ trễ hay băng thông</b>.</li>
+</ul>
+
+<h3>3.2 Multiplexing / demultiplexing</h3>
+<ul>
+  <li><b>Multiplexing</b> (bên gửi): gom dữ liệu từ nhiều socket, thêm header vận chuyển (có port) tạo segment, chuyển xuống tầng mạng.</li>
+  <li><b>Demultiplexing</b> (bên nhận): dùng thông tin header để chuyển segment tới <b>đúng socket</b>.</li>
+  <li>Port: số 16 bit (0–65535); <b>0–1023 well-known</b> (HTTP 80, SMTP 25…).</li>
+  <li><b>UDP</b>: socket xác định bởi <b>(IP đích, port đích)</b> → các gói khác nguồn nhưng cùng port đích vào <b>cùng một socket</b>. Source port dùng làm “địa chỉ trả về”.</li>
+  <li><b>TCP</b>: socket xác định bởi <b>bộ 4: (IP nguồn, port nguồn, IP đích, port đích)</b> → web server có nhiều socket cùng port 80, mỗi client một socket.</li>
+</ul>
+
+<h3>3.3 UDP <span class="tag hot">HAY THI</span></h3>
+<ul>
+  <li>“No frills”: <b>không bắt tay</b>, không giữ trạng thái kết nối, mỗi segment xử lý độc lập; có thể mất, sai thứ tự; không truyền lại, không giảm tốc khi mạng tắc.</li>
+  <li><b>Ưu điểm</b>: không có trễ thiết lập kết nối, đơn giản, <b>header nhỏ (8 byte)</b>, không bị điều khiển tắc nghẽn (gửi nhanh tùy ý), <b>ít tài nguyên</b>.</li>
+  <li>Dùng cho: <b>DNS, DHCP, SNMP</b>, streaming/VoIP/game, HTTP/3 (tin cậy được thêm ở tầng ứng dụng – QUIC).</li>
+  <li>Header 4 trường × 16 bit: <code>source port</code>, <code>dest port</code>, <code>length</code> (byte của <b>cả segment = header + dữ liệu</b>), <code>checksum</code>.</li>
+  <li><b>Checksum</b>: phát hiện lỗi bit (link có thể không kiểm tra lỗi, lỗi còn xảy ra trong bộ nhớ router → nguyên lý end-to-end). Lỗi → bỏ segment hoặc chuyển lên kèm cảnh báo; UDP <b>không sửa</b> lỗi.</li>
+</ul>
+<div class="box tip"><b>Cách tính Internet checksum</b>Chia dữ liệu thành các từ 16 bit → <b>cộng</b> lại; bit nhớ tràn ra ngoài bit 16 được <b>cộng vòng</b> (wraparound) vào bit thấp nhất → lấy <b>bù 1</b> (đảo hết bit) → checksum.<br>Bên nhận cộng tất cả kể cả checksum: được <code>1111 1111 1111 1111</code> → không phát hiện lỗi.<br>Ví dụ: <code>1011011010101101 + 1100100101110110 = 1 1000000000100011</code> → cộng vòng: <code>1000000000100100</code> → bù 1: <code>0111111111011011</code>.</div>
+
+<h3>3.4 Nguyên lý truyền dữ liệu tin cậy (rdt)</h3>
+<div class="tw"><table>
+<tr><th>Phiên bản</th><th>Giả định kênh</th><th>Cơ chế thêm vào</th></tr>
+<tr><td>rdt1.0</td><td>hoàn toàn tin cậy</td><td>gửi/nhận đơn giản</td></tr>
+<tr><td>rdt2.0</td><td>có thể lật bit</td><td>checksum + <b>ACK/NAK</b> + truyền lại (stop-and-wait)</td></tr>
+<tr><td>rdt2.1</td><td>ACK/NAK cũng có thể hỏng</td><td><b>số thứ tự</b> 0/1 để loại gói trùng</td></tr>
+<tr><td>rdt2.2</td><td>như 2.1</td><td>bỏ NAK, dùng <b>ACK kèm số thứ tự</b> (ACK trùng = NAK)</td></tr>
+<tr><td>rdt3.0</td><td>có lỗi và <b>mất gói</b></td><td><b>timer</b>: hết giờ chưa có ACK → truyền lại</td></tr>
+</table></div>
+<div class="f">Stop-and-wait:  U_sender = (L/R) / (RTT + L/R)
+Pipelining N gói: U_sender = N·(L/R) / (RTT + L/R)
+Ví dụ R = 1 Gbps, L = 8000 bit, RTT = 30 ms → L/R = 0,008 ms → U = 0,008/30,008 ≈ 0,00027</div>
+<div class="tw"><table>
+<tr><th></th><th>Go-Back-N (GBN)</th><th>Selective Repeat (SR)</th></tr>
+<tr><td>ACK</td><td><b>tích lũy</b>: ACK(n) xác nhận mọi gói ≤ n</td><td><b>riêng từng gói</b></td></tr>
+<tr><td>Timer</td><td>1 timer cho gói cũ nhất chưa ACK</td><td>mỗi gói một timer</td></tr>
+<tr><td>Khi timeout gói n</td><td>gửi lại n <b>và tất cả</b> gói sau trong cửa sổ</td><td>chỉ gửi lại gói n</td></tr>
+<tr><td>Bên nhận</td><td>bỏ gói sai thứ tự, re-ACK gói đúng thứ tự cuối</td><td><b>đệm</b> gói sai thứ tự</td></tr>
+<tr><td>Cửa sổ (k bit số thứ tự)</td><td>N ≤ 2<sup>k</sup> − 1</td><td>N ≤ 2<sup>k−1</sup> (≤ nửa không gian số thứ tự)</td></tr>
+</table></div>
+
+<h3 id="c3-tcp">3.5 TCP <span class="tag hot">HAY THI</span></h3>
+<ul>
+  <li><b>Point-to-point</b> (1 gửi – 1 nhận), <b>full-duplex</b>, <b>luồng byte</b> tin cậy và đúng thứ tự (không có ranh giới thông điệp), <b>hướng kết nối</b> (bắt tay 3 bước), có pipelining, <b>flow control</b> và <b>congestion control</b>.</li>
+  <li><b>MSS</b> (Maximum Segment Size): lượng <b>dữ liệu ứng dụng</b> tối đa trong một segment, <b>không tính header</b> (thường 1460 byte với MTU Ethernet 1500).</li>
+  <li><b>Header TCP ≥ 20 byte</b>: source port, dest port (16 bit), <b>sequence number</b> (32 bit), <b>acknowledgment number</b> (32 bit), header length, cờ (<code>CWR, ECE, URG, ACK, PSH, RST, SYN, FIN</code>), <b>receive window</b> (rwnd, 16 bit), checksum, urgent pointer, options.</li>
+  <li>TCP đảm bảo dữ liệu tới tiến trình nhận <b>không lỗi, không thiếu, không trùng, đúng thứ tự</b> – nhưng <b>không</b> đảm bảo throughput, độ trễ, mã hóa.</li>
+</ul>
+<h4>Sequence number và ACK</h4>
+<ul>
+  <li><b>Seq</b> = số thứ tự (trong luồng byte) của <b>byte đầu tiên</b> trong segment.</li>
+  <li><b>ACK number</b> = số thứ tự của <b>byte kế tiếp mong nhận</b> → <b>ACK tích lũy</b> (xác nhận mọi byte trước nó).</li>
+  <li>Nhận segment Seq = s mang n byte đúng thứ tự → <code>ACK = s + n</code>. Segment đến có khoảng trống → gửi <b>ACK trùng</b> chỉ byte còn thiếu.</li>
+</ul>
+<div class="box tip"><b>Ví dụ</b>File 500.000 byte, MSS = 1.000 byte, byte đầu đánh số 0 → segment 1: Seq 0, segment 2: Seq <b>1.000</b>, segment k: Seq (k−1)·1000.<br>Seq = 92 mang 8 byte → ACK = 100; Seq = 100 mang 20 byte → ACK = 120.</div>
+<h4>Ước lượng RTT và timeout</h4>
+<div class="f">EstimatedRTT = (1 − α)·EstimatedRTT + α·SampleRTT      (α = 0,125)
+DevRTT       = (1 − β)·DevRTT + β·|SampleRTT − EstimatedRTT|   (β = 0,25)
+TimeoutInterval = EstimatedRTT + 4·DevRTT
+Ví dụ: Est = 100, Dev = 10, Sample = 120 → Est mới = 0,875·100 + 0,125·120 = 102,5</div>
+<p>SampleRTT <b>bỏ qua segment truyền lại</b> (Karn). Sau mỗi timeout, <b>TimeoutInterval nhân đôi</b>.</p>
+<h4>Truyền tin cậy trong TCP</h4>
+<ul>
+  <li>Một timer (cho segment cũ nhất chưa ACK). <b>Timeout</b> → <b>chỉ</b> truyền lại segment chưa ACK có Seq nhỏ nhất (segment gây timeout) rồi khởi động lại timer.</li>
+  <li><b>Fast retransmit</b>: nhận <b>3 ACK trùng</b> cho cùng dữ liệu → truyền lại ngay segment chưa ACK nhỏ nhất, không chờ timeout.</li>
+  <li>Delayed ACK: nhận segment đúng thứ tự → chờ tối đa 500 ms rồi ACK; có khoảng trống → ACK trùng ngay.</li>
+</ul>
+<h4>Điều khiển luồng (flow control)</h4>
+<div class="f">rwnd = RcvBuffer − (LastByteRcvd − LastByteRead)
+Bên gửi: LastByteSent − LastByteAcked ≤ rwnd
+Ví dụ RcvBuffer = 4096, LastByteRcvd = 3000, LastByteRead = 1000 → rwnd = 2096 byte</div>
+<div class="box key"><b>Flow control ≠ Congestion control</b><b>Flow control</b>: tránh bên gửi làm <b>tràn buffer của bên nhận</b> (1 bên gửi quá nhanh với 1 bên nhận) – dùng rwnd.<br><b>Congestion control</b>: tránh nhiều bên gửi làm <b>tắc nghẽn mạng</b> – dùng cwnd.<br>Tổng hợp: <code>LastByteSent − LastByteAcked ≤ min{cwnd, rwnd}</code>.</div>
+
+<h3>3.6 Quản lý kết nối TCP</h3>
+<div class="f">Bắt tay 3 bước (3 segment):
+ 1) client → server : SYN=1, Seq = x
+ 2) server → client : SYN=1, ACK=1, Seq = y, ACKnum = x+1     (SYNACK)
+ 3) client → server : ACK=1, ACKnum = y+1   (có thể mang dữ liệu, Seq = x+1)</div>
+<ul>
+  <li>SYN và FIN mỗi cái <b>tiêu tốn 1 số thứ tự</b>. Bắt tay 2 bước không đủ: gói trễ/truyền lại có thể tạo kết nối nửa mở hoặc nhận dữ liệu trùng.</li>
+  <li><b>Đóng kết nối</b>: bên muốn đóng gửi <b>FIN = 1</b>; bên kia ACK rồi cũng gửi FIN; bên đóng trước vào <b>TIME_WAIT</b> (~2·MSL) để có thể ACK lại FIN nếu ACK cuối bị mất. Đóng thường gồm 4 segment (FIN, ACK, FIN, ACK). <code>RST</code>: hủy kết nối đột ngột.</li>
+  <li>Trạng thái client: CLOSED → SYN_SENT → ESTABLISHED → FIN_WAIT_1 → FIN_WAIT_2 → TIME_WAIT → CLOSED. Server: LISTEN → SYN_RCVD → ESTABLISHED → CLOSE_WAIT → LAST_ACK → CLOSED.</li>
+  <li><b>SYN flood</b>: kẻ tấn công gửi hàng loạt SYN không hoàn tất → cạn tài nguyên server (phòng: SYN cookie).</li>
+</ul>
+
+<h3>3.7 Nguyên lý tắc nghẽn và điều khiển tắc nghẽn TCP <span class="tag hot" id="c3-cc">HAY THI</span></h3>
+<ul>
+  <li><b>Tắc nghẽn</b>: quá nhiều nguồn gửi quá nhanh cho mạng xử lý → <b>trễ hàng đợi lớn</b> (khi tốc độ đến tiến gần dung lượng link) và <b>mất gói</b> (tràn buffer); gây truyền lại, bản sao thừa, lãng phí băng thông thượng nguồn.</li>
+  <li><b>End-to-end</b> (TCP truyền thống): mạng không hỗ trợ tường minh, end system <b>tự suy ra</b> tắc nghẽn từ mất gói và trễ. <b>Network-assisted</b>: router phản hồi tường minh (vd bit <b>ECN</b>, đích báo lại bằng ECE trong ACK).</li>
+</ul>
+<div class="f">Tốc độ gửi ≈ cwnd / RTT   (bytes/s)
+Slow start          : cwnd bắt đầu 1 MSS, GẤP ĐÔI mỗi RTT (+1 MSS mỗi ACK) đến khi cwnd ≥ ssthresh
+Congestion avoidance: cwnd tăng 1 MSS mỗi RTT (tăng tuyến tính – AI)
+Timeout             : ssthresh = cwnd/2 ; cwnd = 1 MSS → slow start lại (Tahoe và Reno)
+3 ACK trùng (Reno)  : ssthresh = cwnd/2 ; cwnd = ssthresh + 3 MSS → fast recovery → cwnd = ssthresh khi có ACK mới
+3 ACK trùng (Tahoe) : cwnd = 1 MSS như timeout
+AIMD: tăng cộng (+1 MSS/RTT), giảm nhân (chia đôi) → đồ thị răng cưa
+Thông lượng trung bình ≈ 3/4 · W / RTT   (W: cửa sổ lúc mất gói)</div>
+<div class="box tip"><b>Ví dụ</b>Slow start từ 1 MSS: 1 → 2 → 4 → 8 → 16 (sau 4 RTT). Nếu cwnd = 16 thì timeout: ssthresh = 8, cwnd = 1 → 1, 2, 4, 8 (slow start) → 9, 10, 11… (congestion avoidance).</div>
+<ul>
+  <li><b>Công bằng</b>: K kết nối TCP chia chung nút cổ chai R → mỗi kết nối ~ <b>R/K</b>. Ứng dụng mở nhiều kết nối song song được nhiều băng thông hơn; UDP không bị điều khiển tắc nghẽn.</li>
+  <li>Biến thể hiện đại: <b>TCP CUBIC</b> (mặc định Linux), delay-based (<b>BBR</b>), ECN. <b>QUIC</b>: giao thức tầng ứng dụng trên UDP (HTTP/3), tích hợp tin cậy, điều khiển tắc nghẽn, bảo mật, nhiều luồng.</li>
+</ul>
+
+<h3>3.8 So sánh TCP và UDP</h3>
+<div class="tw"><table>
+<tr><th>Đặc điểm</th><th>TCP</th><th>UDP</th></tr>
+<tr><td>Kết nối</td><td>hướng kết nối (bắt tay 3 bước)</td><td>không kết nối</td></tr>
+<tr><td>Tin cậy</td><td>có: ACK, truyền lại, thứ tự, checksum</td><td>không (chỉ checksum phát hiện lỗi)</td></tr>
+<tr><td>Thứ tự</td><td>đúng thứ tự</td><td>không đảm bảo</td></tr>
+<tr><td>Flow / congestion control</td><td>có (rwnd / cwnd)</td><td>không</td></tr>
+<tr><td>Header</td><td>≥ 20 byte</td><td>8 byte</td></tr>
+<tr><td>Đơn vị</td><td>luồng byte</td><td>datagram độc lập</td></tr>
+<tr><td>Tốc độ / tài nguyên</td><td>chậm hơn, tốn tài nguyên hơn</td><td>nhanh, nhẹ</td></tr>
+<tr><td>Ứng dụng</td><td>Web, email, FTP, SSH</td><td>DNS, DHCP, streaming, VoIP, game</td></tr>
+</table></div>
+</section>
+
+<!-- ===================================================== -->
+<section class="ch" id="pl-ip">
+<h2>Phụ lục A – IP &amp; Subnet cơ bản (có trong đề giữa kỳ)</h2>
+<ul>
+  <li><b>IPv4</b>: <b>32 bit</b>, viết dạng thập phân có dấu chấm (dotted-decimal), vd <code>192.168.1.10</code>. <b>IPv6</b>: <b>128 bit</b>, hệ hex, rút gọn bằng <code>::</code> (chỉ một lần) và bỏ số 0 đầu mỗi nhóm. <b>MAC</b>: 48 bit.</li>
+  <li><b>Subnet mask / prefix</b>: <code>/x</code> = số bit phần mạng. <code>255.255.255.0 = /24</code>, <code>255.255.0.0 = /16</code>, <code>255.0.0.0 = /8</code>.</li>
+  <li><b>Interface</b>: ranh giới giữa host/router và link; router có nhiều interface, mỗi interface một IP. <b>Subnet</b>: các interface cùng prefix, nói chuyện trực tiếp không qua router.</li>
+</ul>
+<div class="f">Số địa chỉ trong subnet = 2^(32 − x)        Số host dùng được = 2^(32 − x) − 2
+Bước nhảy (block size) ở octet có mask m = 256 − m
+Địa chỉ mạng = IP AND mask      Broadcast = địa chỉ mạng + block − 1
+Chia thành 2^n subnet bằng nhau → mượn n bit: prefix mới = x + n</div>
+<div class="tw"><table>
+<tr><th>Prefix</th><th>Mask</th><th>Số địa chỉ</th><th>Host dùng được</th></tr>
+<tr><td>/24</td><td>255.255.255.0</td><td>256</td><td>254</td></tr>
+<tr><td>/25</td><td>255.255.255.128</td><td>128</td><td>126</td></tr>
+<tr><td>/26</td><td>255.255.255.192</td><td>64</td><td>62</td></tr>
+<tr><td>/27</td><td>255.255.255.224</td><td>32</td><td>30</td></tr>
+<tr><td>/28</td><td>255.255.255.240</td><td>16</td><td>14</td></tr>
+<tr><td>/29</td><td>255.255.255.248</td><td>8</td><td>6</td></tr>
+<tr><td>/30</td><td>255.255.255.252</td><td>4</td><td>2 (link điểm–điểm)</td></tr>
+<tr><td>/23, /22, /21, /20</td><td>255.255.254/252/248/240.0</td><td>512 / 1024 / 2048 / 4096</td><td>510 / 1022 / 2046 / 4094</td></tr>
+</table></div>
+<div class="box tip"><b>Ví dụ nhanh</b><code>192.168.1.70/26</code>: block 64 → mạng <code>.64</code>, broadcast <code>.127</code>, host <code>.65 – .126</code>.<br>Cần 1000 host → /22 (1022 host). Chia /24 thành mask /27 → 8 subnet × 30 host.</div>
+<div class="tw"><table>
+<tr><th>Lớp</th><th>Octet đầu</th><th>Mask mặc định</th><th>Ghi chú</th></tr>
+<tr><td>A</td><td>1 – 126</td><td>/8 (255.0.0.0)</td><td>nhiều host nhất (~16 triệu)</td></tr>
+<tr><td>B</td><td>128 – 191</td><td>/16 (255.255.0.0)</td><td></td></tr>
+<tr><td>C</td><td>192 – 223</td><td>/24 (255.255.255.0)</td><td>vd 192.168.x.x</td></tr>
+<tr><td>D</td><td>224 – 239</td><td>–</td><td>multicast</td></tr>
+<tr><td>E</td><td>240 – 255</td><td>–</td><td>dự phòng</td></tr>
+</table></div>
+<ul>
+  <li><b>Private (RFC 1918)</b>: <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> (172.16–172.31), <code>192.168.0.0/16</code> – không định tuyến trên Internet. VD 172.32.x.x là <b>public</b>.</li>
+  <li>Đặc biệt: <code>127.0.0.0/8</code> loopback (127.0.0.1), <code>0.0.0.0</code> “máy này/chưa có IP”, <code>255.255.255.255</code> broadcast, <code>169.254.0.0/16</code> link-local (tự cấp khi không có DHCP).</li>
+  <li><b>CIDR</b>: bỏ phân lớp, prefix độ dài tùy ý → tiết kiệm địa chỉ, <b>gộp tuyến (aggregation)</b> giảm bảng định tuyến. Router chọn tuyến theo <b>longest prefix match</b>.</li>
+  <li><b>NAT</b>: router <b>dịch IP private ↔ IP public</b> (thay IP nguồn và port nguồn, ghi vào NAT translation table) → nhiều máy dùng chung 1 IP public, che giấu mạng trong.</li>
+  <li><b>Tại sao chia subnet</b>: tăng hiệu suất và dễ quản lý, giảm broadcast, tăng bảo mật (cô lập nhóm máy).</li>
+  <li>Định tuyến: <b>RIP</b> (distance vector, đếm hop, tối đa 15), <b>OSPF</b> (link state, Dijkstra) – định tuyến <b>trong</b> một AS; <b>BGP</b> – định tuyến <b>giữa các AS</b>. <b>ICMP</b>: báo lỗi, ping, traceroute. TTL giảm 1 mỗi router; về 0 thì bỏ gói.</li>
+  <li>IPv6: giao thức hỗ trợ cả IPv4 &amp; IPv6 – OSPFv3, RIPng, BGP-4 (MP-BGP), EIGRP. IPv4 datagram có thể bị <b>phân mảnh</b> khi lớn hơn MTU (IPv6 router không phân mảnh).</li>
+</ul>
+</section>
+
+<!-- ===================================================== -->
+<section class="ch" id="pl-cong">
+<h2>Phụ lục B – Bảng công thức</h2>
+<div class="tw"><table>
+<tr><th>Đại lượng</th><th>Công thức</th><th>Lưu ý</th></tr>
+<tr><td>Trễ nút</td><td><code>d_proc + d_queue + d_trans + d_prop</code></td><td>cộng đủ các loại đề hỏi</td></tr>
+<tr><td>Trễ truyền</td><td><code>L / R</code></td><td>byte → bit (×8)</td></tr>
+<tr><td>Trễ lan truyền</td><td><code>d / s</code>, s ≈ 2×10⁸ m/s</td><td>km → m</td></tr>
+<tr><td>Cường độ lưu lượng</td><td><code>L·a / R</code></td><td>&gt; 1 → hàng đợi vô hạn</td></tr>
+<tr><td>Store-and-forward</td><td><code>N·L/R</code>; P gói: <code>(N+P−1)·L/R</code></td><td>N = số link</td></tr>
+<tr><td>Throughput</td><td><code>min(R₁, …, Rₙ)</code>; chia chung: <code>min(Rs, Rc, R/K)</code></td><td>bottleneck</td></tr>
+<tr><td>Kênh TDM/FDM</td><td><code>R / số kênh</code></td><td>+ thời gian thiết lập</td></tr>
+<tr><td>Full mesh</td><td><code>n(n−1)/2</code> liên kết</td><td></td></tr>
+<tr><td>HTTP non-persistent</td><td><code>2·RTT + L/R</code> mỗi đối tượng</td><td>1 HTML + k ảnh: k+1 kết nối</td></tr>
+<tr><td>Web cache</td><td>độ dùng link = <code>(1−h) × tốc độ yêu cầu / R</code></td><td>h = hit rate</td></tr>
+<tr><td>Client–server</td><td><code>max{N·F/us, F/dmin}</code></td><td></td></tr>
+<tr><td>P2P</td><td><code>max{F/us, F/dmin, N·F/(us+Σui)}</code></td><td></td></tr>
+<tr><td>Stop-and-wait</td><td><code>U = (L/R)/(RTT + L/R)</code></td><td>pipelining ×N</td></tr>
+<tr><td>RTT</td><td><code>Est = 0,875·Est + 0,125·Sample</code><br><code>Dev = 0,75·Dev + 0,25·|Sample − Est|</code><br><code>Timeout = Est + 4·Dev</code></td><td></td></tr>
+<tr><td>Seq / ACK</td><td><code>ACK = Seq + số byte</code></td><td>SYN, FIN tốn 1 số</td></tr>
+<tr><td>rwnd</td><td><code>RcvBuffer − (LastByteRcvd − LastByteRead)</code></td><td></td></tr>
+<tr><td>Tốc độ TCP</td><td><code>≈ cwnd/RTT</code>; trung bình <code>0,75·W/RTT</code></td><td></td></tr>
+<tr><td>Subnet</td><td>host = <code>2^(32−x) − 2</code>; block = <code>256 − mask</code></td><td></td></tr>
+</table></div>
+</section>
+
+<!-- ===================================================== -->
+<section class="ch" id="pl-bay">
+<h2>Phụ lục C – Bẫy hay gặp &amp; checklist trước khi thi</h2>
+<div class="box trap"><b>Bẫy thường gặp</b>
+<ul>
+  <li>Quên đổi <b>byte → bit</b> (×8), <b>km → m</b>, <b>ms ↔ s</b>; chỉ tính một loại delay hoặc nhân đôi như RTT khi đề hỏi một chiều.</li>
+  <li>Số host dùng được phải <b>trừ 2</b> (địa chỉ mạng + broadcast); /24 → 254, /28 → 14.</li>
+  <li><b>Bandwidth</b> (tối đa, lý thuyết, bps) ≠ <b>throughput</b> (thực tế). Đơn vị băng thông là <b>bps</b>, không phải Hz/byte.</li>
+  <li><b>Switch</b> nối host <i>trong</i> một mạng (MAC, tầng 2); <b>router</b> nối <i>các</i> mạng (IP, tầng 3). Hub = tầng 1.</li>
+  <li><b>Session</b> = tầng 5 (thiết lập/quản lý/kết thúc phiên); <b>Presentation</b> = tầng 6 (mã hóa, nén, định dạng); “end-to-end tin cậy” = tầng 4.</li>
+  <li>SMTP chỉ <b>gửi</b> (push); <b>lấy</b> thư dùng POP3/IMAP/HTTP. IMAP giữ thư trên server, POP3 tải về rồi xóa.</li>
+  <li>HTTP stateless ≠ non-persistent: persistent HTTP vẫn stateless. Cookie mới tạo trạng thái.</li>
+  <li>DNS dùng <b>UDP</b> 53; HTTP dùng <b>TCP</b> 80 (HTTPS 443); DHCP UDP 67/68.</li>
+  <li>MX → mail server; NS → name server; CNAME → tên chính tắc; A → IPv4.</li>
+  <li>Host → local DNS: <b>recursive</b>; local → root/TLD/auth: <b>iterative</b>.</li>
+  <li>Non-persistent: 1 HTML + 10 ảnh = <b>11</b> kết nối TCP (22 là số RTT).</li>
+  <li>UDP checksum chỉ <b>phát hiện</b>, không sửa; UDP không NAK, không truyền lại.</li>
+  <li>MSS không tính header. ACK number = byte <b>kế tiếp</b> mong nhận. Bắt tay = <b>3</b> segment.</li>
+  <li>Timeout trong TCP chỉ gửi lại <b>1</b> segment (khác GBN gửi lại cả cửa sổ). 3 ACK trùng → fast retransmit.</li>
+  <li>Flow control (bảo vệ bên nhận, rwnd) ≠ congestion control (bảo vệ mạng, cwnd).</li>
+  <li>Câu “chỉ ra câu <b>sai</b>”: đọc kỹ các phương án kiểu “cả A và B đều đúng/sai”.</li>
+</ul></div>
+<div class="box key"><b>Checklist tự kiểm tra</b>
+<ul>
+  <li>☐ Kể được 7 tầng OSI theo thứ tự + chức năng + PDU + thiết bị; 5 tầng TCP/IP.</li>
+  <li>☐ So sánh chuyển mạch gói / kênh; FDM / TDM; nêu forwarding vs routing.</li>
+  <li>☐ Tính được 4 loại delay, throughput bottleneck, bài 35 user.</li>
+  <li>☐ Ưu/nhược 4 topology; thiết bị hub/switch/router/firewall/proxy.</li>
+  <li>☐ Thuộc bảng cổng (20/21, 22, 23, 25, 53, 67/68, 80, 110, 143, 443) và giao thức nào chạy TCP/UDP.</li>
+  <li>☐ HTTP: phương thức, mã trạng thái, persistent, cookie, cache, conditional GET.</li>
+  <li>☐ DNS: phân cấp, bản ghi, recursive/iterative, đếm thông điệp.</li>
+  <li>☐ TCP: seq/ACK, bắt tay/đóng, RTT/timeout, rwnd, slow start/AIMD/Tahoe/Reno.</li>
+  <li>☐ Subnet: mask ↔ prefix ↔ số host, địa chỉ mạng/broadcast, lớp A/B/C, private IP.</li>
+</ul></div>
+<p class="mut">Luyện tiếp trên web: chọn <b>“Đề giữa kỳ 2024-25 thật”</b>, các mục Ch1–Ch3 và 3 “Mục riêng”, bật chế độ <b>Thi</b> để canh 50 phút.</p>
+</section>
+
+</div>
+</body>
+</html>

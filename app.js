@@ -212,8 +212,9 @@
   function chaps() { return CHK.filter(function (c) { return QS.some(function (q) { return q.chapter === c; }) || theory().some(function (t) { return t.chapter === c; }); }); }
   function leftBook() {
     var ch = chaps();
-    if (!ch.length) return '<p class="muted">Chưa có chương nào.</p>';
-    return ch.map(function (c) {
+    var doc = '<a class="chcard doc" href="on-tap-giua-ky.html" target="_blank" rel="noopener"><b>📘 Tài liệu ôn tập giữa kỳ (Chương 1–3)</b><small>Lý thuyết đầy đủ + IP/subnet + bảng công thức, in được ra PDF</small></a>';
+    if (!ch.length) return doc;
+    return doc + ch.map(function (c) {
       var t = theory().filter(function (x) { return x.chapter === c; })[0];
       return '<button class="chcard" data-act="ch" data-c="' + c + '" data-f="h' + c + '"><b>' + esc(t && t.title ? t.title : CHN[c]) + "</b><small>Nhấn để xem lý thuyết &amp; công thức chi tiết</small></button>";
     }).join("");
