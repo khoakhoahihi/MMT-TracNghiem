@@ -72,18 +72,32 @@
 
   function el(a) { return a.spent + (a.since ? (Date.now() - a.since) / 1000 : 0); }
   function pause() { if (A && A.since) { A.spent = el(A); A.since = null; } }
+  function limitFor(n, mode) { return mode === "exam" ? (n === 70 ? 50 : Math.max(5, Math.round(0.7 * n))) * 60 : 0; }
   function mkAtt(exam, mode) {
-    var ids = idsFor(exam), n = ids.length, mins = n === 70 ? 50 : Math.max(5, Math.round(0.7 * n));
+    var ids = idsFor(exam);
     if (DB.shuf) ids = shuffle(ids);
-    return { ids: ids, perm: {}, picks: {}, i: 0, spent: 0, since: 0, sub: null, limit: mode === "exam" ? mins * 60 : 0 };
+    return { ids: ids, perm: {}, picks: {}, i: 0, spent: 0, since: 0, sub: null, limit: limitFor(ids.length, mode) };
+  }
+  function sync(exam, mode, key) { // saved attempt vs current bank: drop removed questions, pick up newly added ones
+    var A0 = DB.att[key];
+    if (exam === "rand" || exam === "wrong") { A0.ids = A0.ids.filter(function (id) { return QMAP[id]; }); return; }
+    var want = idsFor(exam), inW = {}, has = {};
+    want.forEach(function (id) { inW[id] = 1; });
+    A0.ids = A0.ids.filter(function (id) { return inW[id]; });
+    A0.ids.forEach(function (id) { has[id] = 1; });
+    var add = want.filter(function (id) { return !has[id]; });
+    if (!add.length) return;
+    if (A0.sub) { DB.att[key] = mkAtt(exam, mode); return; } // finished attempt of an outdated set: start a fresh one
+    A0.ids = A0.ids.concat(DB.shuf ? shuffle(add) : add);
+    A0.limit = limitFor(A0.ids.length, mode);
   }
   function openAtt(exam, mode, fresh) {
     pause();
     cur = { exam: exam, mode: mode };
     var key = exam + "|" + mode;
     if (fresh || !DB.att[key]) DB.att[key] = mkAtt(exam, mode);
+    else sync(exam, mode, key);
     A = DB.att[key];
-    A.ids = A.ids.filter(function (id) { return QMAP[id]; });
     A.ids.forEach(function (id) { // keep option order stable for the attempt; rebuild only if the question changed
       var n = QMAP[id].options.length;
       if (!A.perm[id] || A.perm[id].length !== n) { var r = []; for (var i = 0; i < n; i++) r.push(i); A.perm[id] = shuffle(r); }
